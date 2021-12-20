@@ -1,15 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
+    "target": "esnext",
+    "module": "ESNext",
     "moduleResolution": "node",
-    "lib": ["dom", "es6", "es2017", "esnext.asynciterable"],
+    "lib": ["dom", "esnext.asynciterable", "ESNext"],
     "sourceMap": true,
     "declaration": true,
     "outDir": "./dist",
     "rootDir": "./src",
     "removeComments": true,
-    "strict": false,
+    "strict": true,
     "noImplicitAny": false,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
@@ -28,6 +28,6 @@
     "noFallthroughCasesInSwitch": true,
     "stripInternal": true
   },
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "./dist/"],
   "include": ["./src/**/*.ts"]
 }
