@@ -1,5 +1,5 @@
-import { createSignal, onCleanup, onMount } from "solid-js";
-import { createStore, reconcile } from "solid-js/store";
+import { createSignal } from "solid-js";
+import { createStore } from "solid-js/store";
 import { getValueTransformer } from "./modules/transformers/getValueTransformer";
 import { setValueTransformer } from "./modules/transformers/setValueTransformer";
 import { validateForm } from "./modules/validateForm";
@@ -13,7 +13,6 @@ export const createBetterForm = <Values extends object>(
 
   const [errors, setErrors] = createStore<BetterFormError<Values>>({});
   const [loading, setLoading] = createSignal(false);
-
   const _setManuallyEvent = new CustomEvent("set-manually");
 
   const getAllValues = () => {
@@ -43,7 +42,8 @@ export const createBetterForm = <Values extends object>(
   const setValue = <Key extends keyof Values, Value extends Values[Key]>(key: Key, value: Value) =>
     setValueTransformer(refs[key]!, value, _setManuallyEvent);
 
-  const submit = async () => {
+  const submit = async (event?: Event | undefined) => {
+    event?.preventDefault();
     const _values = getAllValues();
     if (_validate(_values) && options.onSubmit) {
       setLoading(true);
