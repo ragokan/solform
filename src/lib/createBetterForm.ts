@@ -1,8 +1,10 @@
 import { createSignal, onCleanup, onMount } from "solid-js";
 import { createStore, reconcile } from "solid-js/store";
-import { getValueTransformer } from "../transformers/getValueTransformer";
-import { setValueTransformer } from "../transformers/setValueTransformer";
-import { BetterFormError, BetterFormOptions, BetterFormValidator } from "./types";
+import { getValueTransformer } from "./modules/transformers/getValueTransformer";
+import { setValueTransformer } from "./modules/transformers/setValueTransformer";
+import { validateForm } from "./modules/validateForm";
+import { watchValue } from "./modules/watchValue";
+import { BetterFormError, BetterFormOptions } from "./types";
 
 export const createBetterForm = <Values extends object>(
   options: BetterFormOptions<Values> = {}
@@ -31,53 +33,9 @@ export const createBetterForm = <Values extends object>(
     key: Key,
     onChange: (value: Value) => void,
     opts = { callImmediately: true }
-  ) =>
-    onMount(() => {
-      const ref = refs[key];
+  ) => watchValue(refs[key]!, onChange, opts.callImmediately);
 
-      if (!ref) {
-        return console.error("The given key is not found:", key);
-      }
-
-      const listener = () => onChange(getValueTransformer(ref));
-
-      if (opts.callImmediately) {
-        listener();
-      }
-
-      ref.addEventListener("input", listener);
-      ref.addEventListener("set-manually", listener);
-      onCleanup(() => {
-        ref.removeEventListener("input", listener);
-        ref.removeEventListener("set-manually", listener);
-      });
-    });
-
-  const _validate = (formValues: Values) => {
-    const validationErrors: any = {};
-    if (!options.validators) {
-      return true;
-    }
-    Object.entries(options.validators || {}).forEach(([key, validate]: [string, any]) => {
-      if (Array.isArray(validate)) {
-        for (let index = 0; index < validate.length; index++) {
-          const _validator = validate[index];
-          const result = _validator(formValues[key] ?? null);
-          if (result) {
-            validationErrors[key] = result;
-            return;
-          }
-        }
-      } else {
-        const result = validate(formValues[key] ?? null);
-        if (result) {
-          validationErrors[key] = result;
-        }
-      }
-    });
-    setErrors(reconcile(validationErrors));
-    return Object.keys(validationErrors).length === 0;
-  };
+  const _validate = (formValues: Values) => validateForm(formValues, options.validators, setErrors);
 
   const getValue = <Key extends keyof Values, Value extends Values[Key]>(key: Key): Value =>
     getValueTransformer(refs[key]!);

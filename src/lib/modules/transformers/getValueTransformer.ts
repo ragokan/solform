@@ -1,3 +1,4 @@
+/** @internal */
 export const getValueTransformer = (ref: HTMLInputElement) => {
   let value: any;
   if (ref.type === "number") {

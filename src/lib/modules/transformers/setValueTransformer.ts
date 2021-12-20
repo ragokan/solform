@@ -1,3 +1,4 @@
+/** @internal */
 export const setValueTransformer = (ref: HTMLInputElement, value: any, event: Event) => {
   if (ref.type === "checkbox") {
     ref.checked = value as any;
