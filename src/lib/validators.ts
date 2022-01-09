@@ -1,24 +1,24 @@
 import { SolFormValidator } from "./types";
 
 export const minLengthValidator =
-  (minLength: number, errorMessage: string): SolFormValidator<string> =>
+  (minLength: number, errorMessage: string): SolFormValidator<string | undefined> =>
   (val) =>
-    !val || val.length < minLength ? errorMessage : undefined;
+    val === null || val === undefined || val.length < minLength ? errorMessage : undefined;
 
 export const maxLengthValidator =
-  (maxLength: number, errorMessage: string): SolFormValidator<string> =>
+  (maxLength: number, errorMessage: string): SolFormValidator<string | undefined> =>
   (val) =>
-    !val || val.length > maxLength ? errorMessage : undefined;
+    val === null || val === undefined || val.length > maxLength ? errorMessage : undefined;
 
 export const requiredValidator =
-  (errorMessage: string): SolFormValidator<string | number | null> =>
+  (errorMessage: string): SolFormValidator<any | undefined> =>
   (val) =>
-    !val || (typeof val === "string" && val.length === 0) ? errorMessage : undefined;
+    val === null || val === undefined || (typeof val === "string" && val.length === 0) ? errorMessage : undefined;
 
 export const emailValidator =
-  (errorMessage: string): SolFormValidator<string> =>
+  (errorMessage: string): SolFormValidator<string | undefined> =>
   (val) =>
-    !val || !_emailRegex.test(val) ? errorMessage : undefined;
+    val === null || val === undefined || !_emailRegex.test(val) ? errorMessage : undefined;
 
 // From https://stackoverflow.com/questions/201323/how-can-i-validate-an-email-address-using-a-regular-expression
 const _emailRegex =

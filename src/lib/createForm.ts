@@ -8,9 +8,8 @@ import { SolFormElement, SolFormError, SolFormOptions } from "./types";
 
 const _setManuallyEvent = new CustomEvent("set-manually");
 
-export const createForm = <Values extends object>(options: SolFormOptions<Values> = {}) => {
+export const createForm = <Values extends {}>(options: SolFormOptions<Values> = {}) => {
   const refs: { [key in keyof Values]?: SolFormElement } = {};
-
   const [errors, setErrors] = createStore<SolFormError<Values>>({});
   const [loading, setLoading] = createSignal(false);
 
@@ -21,7 +20,13 @@ export const createForm = <Values extends object>(options: SolFormOptions<Values
   };
 
   const register = (key: keyof Values) => ({
-    ref: (ref: SolFormElement) => (refs[key] = ref),
+    ref: (ref: SolFormElement) => {
+      const instance = (refs[key] = ref);
+      if (options.initialValues && options.initialValues[key]) {
+        setValue(key, options.initialValues[key]!);
+      }
+      return instance;
+    },
     name: key,
   });
 

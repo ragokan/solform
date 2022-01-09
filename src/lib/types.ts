@@ -13,6 +13,7 @@ export type SolFormValidatorsOption<Values> = {
 
 /** @internal */
 export interface SolFormOptions<Values> {
+  initialValues?: Partial<Values>;
   validators?: SolFormValidatorsOption<Values>;
   onSubmit?: (values: Values) => void | Promise<void>;
 }
