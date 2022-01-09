@@ -1,7 +1,7 @@
-import { BetterFormElement } from "../../types";
+import { SolFormElement } from "../../types";
 
 /** @internal */
-export const setValueTransformer = (ref: BetterFormElement, value: any, event: Event) => {
+export const setValueTransformer = (ref: SolFormElement, value: any, event: Event) => {
   if (ref.type === "checkbox") {
     (ref as HTMLInputElement).checked = value as any;
   } else {

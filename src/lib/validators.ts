@@ -1,22 +1,22 @@
-import { BetterFormValidator } from "./types";
+import { SolFormValidator } from "./types";
 
 export const minLengthValidator =
-  (minLength: number, errorMessage: string): BetterFormValidator<string> =>
+  (minLength: number, errorMessage: string): SolFormValidator<string> =>
   (val) =>
     !val || val.length < minLength ? errorMessage : undefined;
 
 export const maxLengthValidator =
-  (maxLength: number, errorMessage: string): BetterFormValidator<string> =>
+  (maxLength: number, errorMessage: string): SolFormValidator<string> =>
   (val) =>
     !val || val.length > maxLength ? errorMessage : undefined;
 
 export const requiredValidator =
-  (errorMessage: string): BetterFormValidator<string | number | null> =>
+  (errorMessage: string): SolFormValidator<string | number | null> =>
   (val) =>
     !val || (typeof val === "string" && val.length === 0) ? errorMessage : undefined;
 
 export const emailValidator =
-  (errorMessage: string): BetterFormValidator<string> =>
+  (errorMessage: string): SolFormValidator<string> =>
   (val) =>
     !val || !_emailRegex.test(val) ? errorMessage : undefined;
 

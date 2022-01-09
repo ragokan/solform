@@ -1,7 +1,7 @@
-import { BetterFormElement } from "../../types";
+import { SolFormElement } from "../../types";
 
 /** @internal */
-export const getValueTransformer = (ref: BetterFormElement) => {
+export const getValueTransformer = (ref: SolFormElement) => {
   let value: any;
   if (ref.type === "number") {
     value = Number(ref.value);

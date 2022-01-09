@@ -1,5 +1,5 @@
 {
-  "name": "solid-better-form",
+  "name": "solform",
   "version": "1.0.0",
   "description": "Forms",
   "main": "dist/index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ragokan/solid-better-form.git"
+    "url": "git+https://github.com/ragokan/solform.git"
   },
   "keywords": [
     "forms"
@@ -16,9 +16,9 @@
   "author": "ragokan",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ragokan/solid-better-form/issues"
+    "url": "https://github.com/ragokan/solform/issues"
   },
-  "homepage": "https://github.com/ragokan/solid-better-form#readme",
+  "homepage": "https://github.com/ragokan/solform#readme",
   "devDependencies": {
     "tslib": "^2.3.1",
     "typescript": "^4.5.3"

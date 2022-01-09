@@ -1,20 +1,18 @@
 /** @internal */
-export type BetterFormError<Values> = { [key in keyof Values]?: string };
+export type SolFormError<Values> = { [key in keyof Values]?: string };
 
-export type BetterFormValidator<T> = (value: T) => string | void;
-
-/** @internal */
-export type BetterFormElement = HTMLInputElement | HTMLSelectElement;
+export type SolFormValidator<T> = (value: T) => string | void;
 
 /** @internal */
-export type BetterFormValidatorsOption<Values> = {
-  [key in keyof Partial<Values>]:
-    | BetterFormValidator<Values[key]>
-    | Array<BetterFormValidator<Values[key]>>;
+export type SolFormElement = HTMLInputElement | HTMLSelectElement;
+
+/** @internal */
+export type SolFormValidatorsOption<Values> = {
+  [key in keyof Partial<Values>]: SolFormValidator<Values[key]> | Array<SolFormValidator<Values[key]>>;
 };
 
 /** @internal */
-export interface BetterFormOptions<Values> {
-  validators?: BetterFormValidatorsOption<Values>;
+export interface SolFormOptions<Values> {
+  validators?: SolFormValidatorsOption<Values>;
   onSubmit?: (values: Values) => void | Promise<void>;
 }
