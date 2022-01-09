@@ -16,34 +16,48 @@
 
 ```tsx
 // Simplest
-const { values, register } = createForm<{name: string}>();
+import { createForm } from "solform";
 
-<input {...register("name")}>
+function App() {
+    const { values, register } = createForm<{name: string}>();
+
+    return <input {...register("name")}>;
+}
 ```
 
 ```tsx
 // Next Level
-const { values, register, submit, errors } = createForm<{email: string, count: number }>({
-    validators: {
-        count: requiredValidator("Count is required"),
-        email: [requiredValidator("This field is required"), emailValidator("Value should be email!")]
-    },
-    onSubmit: (values) => {
-        // type safe values
-        console.log(values);
-    }
-});
+import { createForm, requiredValidator, emailValidator } from "solform";
 
-<input {...register("email")} type="email">
-{errors.email && <p class="error">{errors.email}</p>}
+function App() {
+    const { values, register, submit, errors } = createForm<{email: string, count: number }>({
+        validators: {
+            count: requiredValidator("Count is required"),
+            email: [requiredValidator("This field is required"), emailValidator("Value should be email!")]
+        },
+        onSubmit: (values) => {
+            // type safe values
+            console.log(values);
+        }
+    });
 
-{/* When you read count, it will be converted to number */}
-<input {...register("count")} type="number">
-<button onClick={submit}>Submit</button>
+    return (
+        <div>
+            <input {...register("email")} type="email">
+            {errors.email && <p class="error">{errors.email}</p>}
+
+            {/* When you read count, it will be converted to number */}
+            <input {...register("count")} type="number">
+            <button onClick={submit}>Submit</button>
+        <div/>)
+}
 ```
 
 ```tsx
 // Full
+import { createForm, requiredValidator, emailValidator } from "solform";
+
+function App() {
 const { values, register, submit, loading, getAllValues, getValue, setValue, errors, watch } = createForm<{email: string, count: number }>({
     initialValues: {
         count: 0
@@ -59,16 +73,21 @@ const { values, register, submit, loading, getAllValues, getValue, setValue, err
     }
 });
 
-// will call the given function whenever the count changes
-watch("count", (updatedCount) => {
-    console.log(updatedCount);
-})
+    // will call the given function whenever the count changes
+    watch("count", (updatedCount) => {
+        console.log(updatedCount);
+    })
 
-<input {...register("email")} type="email">
-{errors.email && <p class="error">{errors.email}</p>}
-{/* When you read count, it will be converted to number */}
-<input {...register("count")} type="number">
-<button onClick={submit} disabled={loading}>{loading ? "Loading..." : "Submit"}</button>
+return (
+        <div>
+            <input {...register("email")} type="email">
+            {errors.email && <p class="error">{errors.email}</p>}
+            {/* When you read count, it will be converted to number */}
+            <input {...register("count")} type="number">
+            <button onClick={submit} disabled={loading}>{loading ? "Loading..." : "Submit"}</button>
+        <div>
+ )
+}
 ```
 
 ### Built-in validators
