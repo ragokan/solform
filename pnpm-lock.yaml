@@ -1,12 +1,12 @@
 lockfileVersion: 5.3
 
 specifiers:
-  solid-js: ^1.3.9
+  solid-js: ^1.3.12
   tslib: ^2.3.1
   typescript: ^4.6.2
 
 dependencies:
-  solid-js: 1.3.9
+  solid-js: 1.3.12
 
 devDependencies:
   tslib: 2.3.1
@@ -14,8 +14,8 @@ devDependencies:
 
 packages:
 
-  /solid-js/1.3.9:
-    resolution: {integrity: sha512-BZyDen2oj3XA8g8xe0hhVIzGP2d+TV2dn3w90lXjNYLxveAXeN4aA5pxdO4vn7FKd0e0p4nqWtbWtG7NyaPs2A==}
+  /solid-js/1.3.12:
+    resolution: {integrity: sha512-JnIoF5f40WR8LTEU1McFz/xVnXT3bGyBIme7gFbGj2ch6wXg+vcfbbhc2mz6YaLJIt8NEU+wAg8v+6SX3ZP9mA==}
     dev: false
 
   /tslib/2.3.1:
