@@ -21,7 +21,7 @@ import { createForm } from "solform";
 function App() {
     const { values, register } = createForm<{name: string}>();
 
-    return <input {...register("name")}>;
+    return <input {...register("name")}/>;
 }
 ```
 
