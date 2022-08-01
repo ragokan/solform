@@ -19,9 +19,9 @@
 import { createForm } from "solform";
 
 function App() {
-    const { values, register } = createForm<{name: string}>();
+  const { register } = createForm<{ name: string }>();
 
-    return <input {...register("name")}/>;
+  return <input {...register("name")} />;
 }
 ```
 
@@ -30,17 +30,21 @@ function App() {
 import { createForm, requiredValidator, emailValidator } from "solform";
 
 function App() {
-  const { values, register, submit, errors } = createForm<{ email: string, 
-  
-  count: number }>({
+  const { register, submit, errors } = createForm<{
+    email: string;
+    count: number;
+  }>({
     validators: {
       count: requiredValidator("Count is required"),
-      email: [requiredValidator("This field is required"), emailValidator("Value should be email!")]
+      email: [
+        requiredValidator("This field is required"),
+        emailValidator("Value should be email!"),
+      ],
     },
     onSubmit: (values) => {
       // type safe values
       console.log(values);
-    }
+    },
   });
 
   return (
@@ -61,25 +65,29 @@ function App() {
 import { createForm, requiredValidator, emailValidator } from "solform";
 
 function App() {
-  const { values, register, submit, loading, getAllValues, getValue, setValue, errors, watch } = createForm<{ email: string, count: number }>({
-    initialValues: {
-      count: 0
-    },
-    validators: {
-      count: requiredValidator("Count is required"),
-      email: [requiredValidator("This field is required"), emailValidator("Value should be email!")]
-    },
-    onSubmit: async (values) => {
-      await sleep(2000); // it will automatically set loading to true
-      console.log(values);
-      // loading is false again
-    }
-  });
+  const { register, submit, loading, getAllValues, getValue, setValue, errors, watch } =
+    createForm<{ email: string; count: number }>({
+      initialValues: {
+        count: 0,
+      },
+      validators: {
+        count: requiredValidator("Count is required"),
+        email: [
+          requiredValidator("This field is required"),
+          emailValidator("Value should be email!"),
+        ],
+      },
+      onSubmit: async (values) => {
+        await sleep(2000); // it will automatically set loading to true
+        console.log(values);
+        // loading is false again
+      },
+    });
 
   // will call the given function whenever the count changes
   watch("count", (updatedCount) => {
     console.log(updatedCount);
-  })
+  });
 
   return (
     <div>
@@ -87,15 +95,16 @@ function App() {
       {errors.email && <p class="error">{errors.email}</p>}
       {/* When you read count, it will be converted to number */}
       <input {...register("count")} type="number" />
-      <button onClick={submit} disabled={loading()}>{loading() ? "Loading..." : "Submit"}</button>
+      <button onClick={submit} disabled={loading()}>
+        {loading() ? "Loading..." : "Submit"}
+      </button>
     </div>
-  )
+  );
 }
 
 function sleep(arg0: number) {
   throw new Error("Function not implemented.");
 }
-
 ```
 
 ### Built-in validators
