@@ -2,7 +2,11 @@ import { reconcile, SetStoreFunction } from "solid-js/store";
 import { SolFormError, SolFormValidatorsOption } from "../types";
 
 /** @internal */
-export const validateForm = <Values>(formValues: Values, validators: SolFormValidatorsOption<Values> | undefined, setErrors: SetStoreFunction<SolFormError<Values>>) => {
+export const validateForm = <Values>(
+  formValues: Values,
+  validators: SolFormValidatorsOption<Values> | undefined,
+  setErrors: SetStoreFunction<SolFormError<Values>>
+) => {
   const validationErrors: any = {};
   if (!validators) {
     return true;

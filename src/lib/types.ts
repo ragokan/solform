@@ -5,7 +5,9 @@ export type SolFormValidator<T> = (value: T) => string | void;
 export type SolFormElement = HTMLInputElement | HTMLSelectElement;
 
 export type SolFormValidatorsOption<Values> = {
-  [key in keyof Partial<Values>]: SolFormValidator<Values[key]> | Array<SolFormValidator<Values[key]>>;
+  [key in keyof Partial<Values>]:
+    | SolFormValidator<Values[key]>
+    | Array<SolFormValidator<Values[key]>>;
 };
 
 export interface SolFormOptions<Values> {

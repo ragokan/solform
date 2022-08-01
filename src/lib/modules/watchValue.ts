@@ -3,7 +3,11 @@ import { SolFormElement } from "../types";
 import { getValueTransformer } from "./transformers/getValueTransformer";
 
 /** @internal */
-export const watchValue = <Values, Key extends keyof Values, Value extends Values[Key]>(ref: SolFormElement, onChange: (value: Value) => void, callImmediately: boolean) => {
+export const watchValue = <Values, Key extends keyof Values, Value extends Values[Key]>(
+  ref: SolFormElement,
+  onChange: (value: Value) => void,
+  callImmediately: boolean
+) => {
   const listener = () => onChange(getValueTransformer(ref));
 
   if (callImmediately) {

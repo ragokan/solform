@@ -13,7 +13,9 @@ export const maxLengthValidator =
 export const requiredValidator =
   (errorMessage: string): SolFormValidator<any | undefined> =>
   (val) =>
-    val === null || val === undefined || (typeof val === "string" && val.length === 0) ? errorMessage : undefined;
+    val === null || val === undefined || (typeof val === "string" && val.length === 0)
+      ? errorMessage
+      : undefined;
 
 export const emailValidator =
   (errorMessage: string): SolFormValidator<string | undefined> =>

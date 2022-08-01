@@ -15,7 +15,9 @@ export const createForm = <Values extends {}>(options: SolFormOptions<Values> = 
 
   const getAllValues = () => {
     const values: any = {};
-    Object.entries(refs).forEach(([key, ref]) => (values[key] = getValueTransformer(ref as SolFormElement)));
+    Object.entries(refs).forEach(
+      ([key, ref]) => (values[key] = getValueTransformer(ref as SolFormElement))
+    );
     return values as Values;
   };
 
@@ -30,16 +32,22 @@ export const createForm = <Values extends {}>(options: SolFormOptions<Values> = 
     name: key,
   });
 
-  const watch = <Key extends keyof Values, Value extends Values[Key]>(key: Key, onChange: (value: Value) => void, opts = { callImmediately: true }) =>
+  const watch = <Key extends keyof Values, Value extends Values[Key]>(
+    key: Key,
+    onChange: (value: Value) => void,
+    opts = { callImmediately: true }
+  ) =>
     onMount(() => {
       watchValue(refs[key]!, onChange, opts.callImmediately);
     });
 
   const _validate = (formValues: Values) => validateForm(formValues, options.validators, setErrors);
 
-  const getValue = <Key extends keyof Values, Value extends Values[Key]>(key: Key): Value => getValueTransformer(refs[key]!);
+  const getValue = <Key extends keyof Values, Value extends Values[Key]>(key: Key): Value =>
+    getValueTransformer(refs[key]!);
 
-  const setValue = <Key extends keyof Values, Value extends Values[Key]>(key: Key, value: Value) => setValueTransformer(refs[key]!, value, _setManuallyEvent);
+  const setValue = <Key extends keyof Values, Value extends Values[Key]>(key: Key, value: Value) =>
+    setValueTransformer(refs[key]!, value, _setManuallyEvent);
 
   const submit = async (event?: Event | undefined) => {
     event?.preventDefault();
