@@ -2,7 +2,10 @@ export type SolFormError<Values> = { [key in keyof Values]?: string };
 
 export type SolFormValidator<T> = (value: T) => string | void;
 
-export type SolFormElement = HTMLInputElement | HTMLSelectElement;
+export type SolFormElement =
+  | HTMLInputElement
+  | HTMLSelectElement
+  | HTMLTextAreaElement;
 
 export type SolFormValidatorsOption<Values> = {
   [key in keyof Partial<Values>]:
