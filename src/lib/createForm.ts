@@ -8,7 +8,9 @@ import { SolFormElement, SolFormError, SolFormOptions } from "./types";
 
 const _setManuallyEvent = new CustomEvent("set-manually");
 
-export const createForm = <Values extends {}>(options: SolFormOptions<Values> = {}) => {
+export const createForm = <Values extends {}>(
+  options: SolFormOptions<Values> = {}
+) => {
   const refs: { [key in keyof Values]?: SolFormElement } = {};
   const [errors, setErrors] = createStore<SolFormError<Values>>({});
   const [loading, setLoading] = createSignal(false);
@@ -41,13 +43,17 @@ export const createForm = <Values extends {}>(options: SolFormOptions<Values> = 
       watchValue(refs[key]!, onChange, opts.callImmediately);
     });
 
-  const _validate = (formValues: Values) => validateForm(formValues, options.validators, setErrors);
+  const _validate = (formValues: Values) =>
+    validateForm(formValues, options.validators, setErrors, refs);
 
-  const getValue = <Key extends keyof Values, Value extends Values[Key]>(key: Key): Value =>
-    getValueTransformer(refs[key]!);
+  const getValue = <Key extends keyof Values, Value extends Values[Key]>(
+    key: Key
+  ): Value => getValueTransformer(refs[key]!);
 
-  const setValue = <Key extends keyof Values, Value extends Values[Key]>(key: Key, value: Value) =>
-    setValueTransformer(refs[key]!, value, _setManuallyEvent);
+  const setValue = <Key extends keyof Values, Value extends Values[Key]>(
+    key: Key,
+    value: Value
+  ) => setValueTransformer(refs[key]!, value, _setManuallyEvent);
 
   const submit = async (event?: Event | undefined) => {
     event?.preventDefault();
@@ -59,5 +65,14 @@ export const createForm = <Values extends {}>(options: SolFormOptions<Values> = 
     }
   };
 
-  return { register, submit, errors, getValue, setValue, loading, watch, getAllValues };
+  return {
+    register,
+    submit,
+    errors,
+    getValue,
+    setValue,
+    loading,
+    watch,
+    getAllValues,
+  };
 };
