@@ -1,7 +1,7 @@
 # solform
 
 ### A form management library for SolidJS that is very lightweight and simple!
-
+#### (UPDATE) Just wanted to say, I was busy a little bit but soon, I will update this package to latest version of everything with all the fixes.
 [![npm](https://img.shields.io/npm/v/solform?color=F53B02)](https://www.npmjs.com/package/solform)
 [![GitHub Repo stars](https://img.shields.io/github/stars/ragokan/solform?label=github%20stars)](https://github.com/ragokan/solform)
 
