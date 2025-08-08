@@ -1,139 +1,94 @@
 # solform
 
-### A form management library for SolidJS that is very lightweight and simple!
-#### (UPDATE) Just wanted to say, I was busy a little bit but soon, I will update this package to latest version of everything with all the fixes.
-[![npm](https://img.shields.io/npm/v/solform?color=F53B02)](https://www.npmjs.com/package/solform)
-[![GitHub Repo stars](https://img.shields.io/github/stars/ragokan/solform?label=github%20stars)](https://github.com/ragokan/solform)
+Easily manage forms in SolidJS.
 
-### Why solform
+- Small, dependency-free form helper for Solid 1.x
+- Register native inputs, validate, watch, and submit with a minimal API
 
-- Very easy, fast, lightweight and powerful!
-- It has built-in validation.
-- You can easily customize it!
-- Full type support
+## Install
 
-### Create form
+```bash
+pnpm add solform
+```
+
+Peer dependency:
+- `solid-js` (1.x)
+
+## Quick start
 
 ```tsx
-// Simplest
 import { createForm } from "solform";
 
-function App() {
-  const { register } = createForm<{ name: string }>();
+function SignupForm() {
+  type Values = { email: string; agree: boolean };
 
-  return <input {...register("name")} />;
-}
-```
-
-```tsx
-// Next Level
-import { createForm, requiredValidator, emailValidator } from "solform";
-
-function App() {
-  const { register, submit, errors } = createForm<{
-    email: string;
-    count: number;
-  }>({
+  const { register, submit, errors, loading } = createForm<Values>({
     validators: {
-      count: requiredValidator("Count is required"),
-      email: [
-        requiredValidator("This field is required"),
-        emailValidator("Value should be email!"),
-      ],
+      email: (v) => (!v ? "Email required" : undefined),
+      agree: (v) => (v ? undefined : "You must agree"),
     },
-    onSubmit: (values) => {
-      // type safe values
-      console.log(values);
+    onSubmit: async (values) => {
+      await fetch("/api/signup", { method: "POST", body: JSON.stringify(values) });
     },
   });
 
   return (
-    <div>
-      <input {...register("email")} type="email" />
-      {errors.email && <p class="error">{errors.email}</p>}
+    <form onSubmit={submit}>
+      <input type="email" {...register("email")} />
+      {errors.email && <span>{errors.email}</span>}
 
-      {/* When you read count, it will be converted to number */}
-      <input {...register("count")} type="number" />
-      <button onClick={submit}>Submit</button>
-    </div>
+      <input type="checkbox" {...register("agree")} />
+      {errors.agree && <span>{errors.agree}</span>}
+
+      <button disabled={loading()}>Submit</button>
+    </form>
   );
 }
 ```
 
-```tsx
-// Full
-import { createForm, requiredValidator, emailValidator } from "solform";
+## API
 
-function App() {
-  const { register, submit, loading, getAllValues, getValue, setValue, errors, watch } =
-    createForm<{ email: string; count: number }>({
-      initialValues: {
-        count: 0,
-      },
-      validators: {
-        count: requiredValidator("Count is required"),
-        email: [
-          requiredValidator("This field is required"),
-          emailValidator("Value should be email!"),
-        ],
-      },
-      onSubmit: async (values) => {
-        await sleep(2000); // it will automatically set loading to true
-        console.log(values);
-        // loading is false again
-      },
-    });
+- `createForm<Values>(options?)`
+  - Returns `{ register, submit, errors, getValue, setValue, loading, watch, getAllValues }`
+  - `register(key)` → `{ ref, name }` attach `ref` to your input
+  - `submit(e?)` prevents default, validates, calls `onSubmit` when valid
+  - `errors` Solid store keyed by field
+  - `getValue(key)` / `setValue(key, value)` for programmatic access
+  - `loading()` signal during async submit
+  - `watch(key, fn, { callImmediately = true })` listens for input and internal updates
+  - `getAllValues()` snapshots the form
 
-  // will call the given function whenever the count changes
-  watch("count", (updatedCount) => {
-    console.log(updatedCount);
-  });
+### Options
+- `initialValues?: Partial<Values>` applied on first register (supports falsy values like `""`, `0`, `false`)
+- `validators?: { [K in keyof Values]?: Validator | Validator[] }`
+- `onSubmit?: (values: Values) => void | Promise<void>`
 
-  return (
-    <div>
-      <input {...register("email")} type="email" />
-      {errors.email && <p class="error">{errors.email}</p>}
-      {/* When you read count, it will be converted to number */}
-      <input {...register("count")} type="number" />
-      <button onClick={submit} disabled={loading()}>
-        {loading() ? "Loading..." : "Submit"}
-      </button>
-    </div>
-  );
-}
+## Validators
 
-function sleep(arg0: number) {
-  throw new Error("Function not implemented.");
-}
-```
-
-### Built-in validators
-
-- minLengthValidator(minLength, errorMessage)
-- maxLengthValidator(maxLength, errorMessage)
-- requiredValidator(errorMessage)
-- emailValidator(errorMessage)
-
-### Creating new validators
+Included helpers:
 
 ```ts
-const minimumNumberValidator =
-  (minNumber: number, errorMessage: string): SolFormValidator<number> =>
-  (val) =>
-    val < minNumber ? errorMessage : undefined;
+import { requiredValidator, minLengthValidator, maxLengthValidator, emailValidator } from "solform";
 ```
 
-### Tactics
+Compose arrays per field to short-circuit on first error.
 
-- Always use **watch** inside a component, because it will call **onMount** and **onCleanup**.
-- More soon...
+## Notes
+- Number inputs: empty value becomes `undefined`, otherwise parsed with `Number()`
+- Checkbox inputs use `checked`
+- Programmatic updates dispatch a custom `set-manually` event so `watch` receives them
 
-### What is next?
+## Testing
 
-- Support for more fields, such as **radio group**
-- Validate on change option.
+This repo uses Vitest with a DOM environment.
 
-### How to contribute?
+- Run tests: `pnpm test`
+- Coverage: `pnpm test:cov`
 
-- Get a fork of this package, do your changes and create a pull request.
-- Found a bug? create an issue.
+## Contributing
+- Build: `pnpm build`
+- Clean build: `pnpm clean && pnpm build`
+- Prepare publish: `pnpm prepublishOnly`
+
+## License
+ISC

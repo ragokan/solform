@@ -1,0 +1,11 @@
+# Cursor rules for solform
+
+- Prefer TypeScript with strict types; do not weaken types to `any` unless isolated and necessary.
+- Library targets Solid 1.x: do not introduce Solid 2.0-only APIs.
+- Keep `solid-js` as a peerDependency; don't import from private/internal Solid paths.
+- Use DOM-native elements in tests with `happy-dom` (avoid jsdom quirks).
+- For new features, add unit tests under `tests/` and keep coverage above 90% on changed lines.
+- Avoid runtime dependencies; keep package zero-dependency for consumers.
+- Maintain API stability: no breaking changes without a major version bump and clear migration notes in `README.md`.
+- When editing files, preserve formatting and avoid unrelated refactors per edit.
+- Ensure `pnpm run build` and `pnpm test` are green before marking tasks complete.

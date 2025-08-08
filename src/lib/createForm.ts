@@ -1,4 +1,4 @@
-import { createSignal, onMount } from "solid-js";
+import { createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 import { getValueTransformer } from "./modules/transformers/getValueTransformer";
 import { setValueTransformer } from "./modules/transformers/setValueTransformer";
@@ -35,10 +35,7 @@ export const createForm = <Values extends {}>(options: SolFormOptions<Values> = 
     key: Key,
     onChange: (value: Value) => void,
     opts = { callImmediately: true }
-  ) =>
-    onMount(() => {
-      watchValue(refs[key]!, onChange, opts.callImmediately);
-    });
+  ) => watchValue(refs[key]!, onChange, opts.callImmediately);
 
   const _validate = (formValues: Values) => validateForm(formValues, options.validators, setErrors);
 
