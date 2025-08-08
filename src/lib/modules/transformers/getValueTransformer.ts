@@ -4,7 +4,8 @@ import { SolFormElement } from "../../types";
 export const getValueTransformer = (ref: SolFormElement) => {
   let value: any;
   if (ref.type === "number") {
-    value = Number(ref.value);
+    const raw = ref.value;
+    value = raw === "" ? undefined : Number(raw);
   } else if (ref.type === "checkbox") {
     value = (ref as HTMLInputElement).checked;
   } else {

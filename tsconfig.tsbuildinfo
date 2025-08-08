@@ -1,0 +1,1 @@
+{"root":["./src/index.ts","./src/lib/createForm.ts","./src/lib/types.ts","./src/lib/validators.ts","./src/lib/modules/validateForm.ts","./src/lib/modules/watchValue.ts","./src/lib/modules/transformers/getValueTransformer.ts","./src/lib/modules/transformers/setValueTransformer.ts"],"version":"5.9.2"}

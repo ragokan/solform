@@ -5,4 +5,4 @@ export {
   minLengthValidator,
   requiredValidator,
 } from "./lib/validators";
-export type { SolFormValidator } from "./lib/types";
+export type { SolFormValidator, SolFormError, SolFormOptions, SolFormValidatorsOption } from "./lib/types";
